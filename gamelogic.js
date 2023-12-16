@@ -25,19 +25,29 @@ const createSquares = () => {
 
 createSquares();
 
+let colorBeingDragged;
+let colorBeingReplaced;
+let squareIdBeingDragged;
+let squareIdBeingReplaced;
+
 function dragStart() {
-  console.log(this.id, "dragstart");
+  colorBeingDragged = this.style.backgroundColor;
+  squareIdBeingDragged = parseInt(this.id);
 }
 
 function dragEnd() {
   console.log(this.id, "dragend");
 }
 
-function dragOver() {
+function dragOver(e) {
+  e.preventDefault();
+
   console.log(this.id, "dragover");
 }
 
-function dragEnter() {
+function dragEnter(e) {
+  e.preventDefault();
+
   console.log(this.id, "dragenter");
 }
 
@@ -46,7 +56,12 @@ function dragLeave() {
 }
 
 function dragDrop() {
-  console.log(this.id, "dragdrop");
+  colorBeingReplaced = this.style.backgroundColor;
+  squareIdBeingReplaced = parseInt(this.id);
+
+  //LOGIC TO SWAP THE COLORS WHEN I DROP
+  squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced;
+  this.style.backgroundColor = colorBeingDragged;
 }
 
 squares.forEach((square) => square.addEventListener("dragstart", dragStart));
